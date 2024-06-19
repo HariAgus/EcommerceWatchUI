@@ -23,6 +23,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.haw.ecommercewatchyoutube.R
 import com.haw.ecommercewatchyoutube.data.itemsViewPager
 import com.haw.ecommercewatchyoutube.data.watchItems
@@ -32,7 +34,7 @@ import com.haw.ecommercewatchyoutube.ui.component.WatchCard
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
 
     val pagerState = rememberPagerState { itemsViewPager.size }
 
@@ -40,7 +42,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize()
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 32.dp)
+            modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.padding(top = 32.dp))
 
@@ -49,9 +51,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.padding(top = 32.dp))
 
             Text(
-                text = "Find your suitable \nwatch now.",
+                text = "Find your suitable\n\nwatch now.",
                 fontSize = 40.sp,
-                fontFamily = FontFamily(Font(R.font.raleway_bold))
+                fontFamily = FontFamily(Font(resId = R.font.raleway_bold)),
             )
 
             HorizontalPager(
@@ -80,7 +82,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 columns = GridCells.Fixed(2)
             ) {
                 items(items = watchItems) { watch ->
-                    WatchCard(watch = watch)
+                    WatchCard(watch = watch, onClick = { navHostController.navigate("detail") })
                 }
             }
         }
@@ -90,5 +92,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(navHostController = rememberNavController())
 }

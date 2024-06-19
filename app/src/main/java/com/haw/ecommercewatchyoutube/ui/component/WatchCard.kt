@@ -1,6 +1,7 @@
 package com.haw.ecommercewatchyoutube.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,9 +24,11 @@ import com.haw.ecommercewatchyoutube.ui.theme.BluePrimary
 import com.haw.ecommercewatchyoutube.ui.theme.Gray
 
 @Composable
-fun WatchCard(modifier: Modifier = Modifier, watch: Watch) {
+fun WatchCard(modifier: Modifier = Modifier, watch: Watch, onClick: () -> Unit) {
     Surface(
-        modifier = modifier.wrapContentSize(),
+        modifier = modifier
+            .wrapContentSize()
+            .clickable { onClick() },
         tonalElevation = 10.dp,
         shadowElevation = 0.75.dp,
         shape = RoundedCornerShape(14.dp),
@@ -66,10 +69,13 @@ fun WatchCard(modifier: Modifier = Modifier, watch: Watch) {
 @Preview
 @Composable
 private fun WatchCardPreview() {
-    WatchCard(watch = Watch(
-        name = "Rhonda Horton",
-        type = "feugait",
-        image = 5574,
-        price = "gravida"
-    ))
+    WatchCard(
+        watch = Watch(
+            name = "Rhonda Horton",
+            type = "feugait",
+            image = 5574,
+            price = "gravida"
+        ),
+        onClick = {}
+    )
 }

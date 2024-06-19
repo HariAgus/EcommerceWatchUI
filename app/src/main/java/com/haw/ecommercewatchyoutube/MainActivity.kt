@@ -1,5 +1,6 @@
 package com.haw.ecommercewatchyoutube
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,19 +12,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.haw.ecommercewatchyoutube.ui.screens.DetailScreen
+import com.haw.ecommercewatchyoutube.ui.screens.HomeScreen
 import com.haw.ecommercewatchyoutube.ui.theme.EcommerceWatchYoutubeTheme
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navHostController = rememberNavController()
+
             EcommerceWatchYoutubeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    SetupNavigation(navHostController = navHostController)
                 }
             }
         }
@@ -31,17 +39,14 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun SetupNavigation(navHostController: NavHostController) {
+    NavHost(startDestination = "home", navController = navHostController) {
+        composable(route = "home") {
+            HomeScreen(navHostController = navHostController)
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EcommerceWatchYoutubeTheme {
-        Greeting("Android")
+        composable(route = "detail") {
+            DetailScreen(onClickBack = { navHostController.popBackStack() })
+        }
     }
 }
